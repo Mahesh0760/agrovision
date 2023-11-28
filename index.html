@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -160,7 +160,7 @@
         })
           .then(function (response) {
             if (response.ok) {
-              resultDiv.innerHTML = `Disease: ${label.data[0].Name}`  
+              resultDiv.innerHTML = `Disease: ${response}`  
               return response.text(); // Assuming label is directly available in the response
             } else {
               throw new Error("Label not available");
