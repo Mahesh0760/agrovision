@@ -1,168 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgroVision Image Recognition</title>
     <style>
-         body {
-            background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fcrops&psig=AOvVaw2nTBXM9preRrgYp2-o1wNN&ust=1701128994494000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCLjwt7_t4oIDFQAAAAAdAAAAABAD');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+      body {
+        background-image: url("./crops.jpg");
+        /* background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fcrops&psig=AOvVaw2nTBXM9preRrgYp2-o1wNN&ust=1701128994494000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCLjwt7_t4oIDFQAAAAAdAAAAABAD'); */
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
 
-        h1 {
-            margin-top: 50px;
-            color: black;
-        }
+      h1 {
+        margin-top: 50px;
+        color: black;
+      }
 
-        #imageForm {
-            margin: 20px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      #imageForm {
+        margin: 20px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        #imageInputContainer {
-            position: relative;
-        }
+      #imageInputContainer {
+        position: relative;
+      }
 
-        #imageInput {
-            display: none;
-        }
+      #imageInput {
+        display: none;
+      }
 
-        label {
-            color: black;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            background-color: #4CAF50;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      label {
+        color: black;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+        background-color: #4caf50;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        #result {
-            margin-top: 20px;
-            color: #000;
-        }
+      #result {
+        margin-top: 20px;
+        color: #000;
+      }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
 
-        button {
-            margin-top: 10px;
-            margin-right: 5px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }/* Your existing styles */
+      button {
+        margin-top: 10px;
+        margin-right: 5px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      } /* Your existing styles */
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Image Recognition</h1>
     <form id="imageForm" enctype="multipart/form-data">
-        <div id="imageInputContainer">
-            <label for="imageInput" id="imageInputLabel" onclick="selectImage()">Select an image</label>
-            <input type="file" id="imageInput" accept="image/*" required onchange="previewImage()">
-        </div>
-        <div id="result"></div>
-        <button type="button" onclick="uploadImage()">Upload Image</button>
-        <button type="button" onclick="getLabel()">Get Label</button>
+      <div id="imageInputContainer">
+        <label for="imageInput" id="imageInputLabel" onclick="selectImage()"
+          >Select an image</label
+        >
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          required
+          onchange="previewImage()"
+        />
+      </div>
+      <div id="result"></div>
+      <button type="button" onclick="uploadImage()">Upload Image</button>
+      <button type="button" onclick="getLabel()">Get Label</button>
     </form>
 
     <script>
-        function previewImage() {
-            const input = document.getElementById('imageInput');
-            const resultDiv = document.getElementById('result');
-            const file = input.files[0];
+      function previewImage() {
+        const input = document.getElementById("imageInput");
+        const resultDiv = document.getElementById("result");
+        const file = input.files[0];
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    resultDiv.innerHTML = `<img src="${e.target.result}" alt="Selected Image" onclick="selectImage()" style="max-width: 300px; height: auto; cursor: pointer;">`;
-                };
-                reader.readAsDataURL(file);
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            resultDiv.innerHTML = `<img src="${e.target.result}" alt="Selected Image" onclick="selectImage()" style="max-width: 300px; height: auto; cursor: pointer;">`;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          resultDiv.innerHTML = "";
+        }
+      }
+
+      function uploadImage() {
+        const fileInput = document.getElementById("imageInput");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select an image before uploading.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("https://agrovision.azurewebsites.net/uploadfile", {
+          method: "POST",
+          body: formData,
+        })
+          .then(function (response) {
+            console.log(response.status);
+            console.log(response);
+            const resultDiv = document.getElementById("result");
+            //resultDiv.innerHTML = 'Image uploaded successfully!';
+            fileInput.value = ""; // Reset the file input
+            previewImage(); // Reset to "Select an image" state
+            if (response.ok) {
+              resultDiv.innerHTML = "Image uploaded successfully!";
+              //return response.text(); // Assuming label is directly available in the response
             } else {
-                resultDiv.innerHTML = '';
+              throw new Error("Label not available");
             }
-        }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
 
-        function uploadImage() {
-            const fileInput = document.getElementById('imageInput');
-            const file = fileInput.files[0];
+      function getLabel() {
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "Fetching label...";
 
-            if (!file) {
-                alert("Please select an image before uploading.");
-                return;
+        fetch("https://agrovision.azurewebsites.net/label", {
+          method: "GET",
+        })
+          .then(function (response) {
+            if (response.ok) {
+              return response.text(); // Assuming label is directly available in the response
+            } else {
+              throw new Error("Label not available");
             }
+          })
+          .then(function (label) {
+            resultDiv.innerHTML = `Label: ${label}`;
+          })
+          .catch((error) => {
+            resultDiv.innerHTML = "Label not available";
+            console.error("Error:", error);
+          });
+      }
 
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('https://agrovision.azurewebsites.net/uploadfile', {
-                method: 'POST',
-                body: formData,
-            }).then(function (response) {
-                console.log(response.status);
-                console.log(response);
-                const resultDiv = document.getElementById('result');
-                //resultDiv.innerHTML = 'Image uploaded successfully!';
-                fileInput.value = ''; // Reset the file input
-                previewImage(); // Reset to "Select an image" state
-                if (response.ok) {
-                    resultDiv.innerHTML = 'Image uploaded successfully!';
-                    //return response.text(); // Assuming label is directly available in the response
-                } else {
-                    throw new Error('Label not available');
-                }
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-        }
-
-        function getLabel() {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = 'Fetching label...';
-
-            fetch('https://agrovision.azurewebsites.net/label', {
-                method: 'GET',
-            }).then(function (response) {
-                if (response.ok) {
-                    return response.text(); // Assuming label is directly available in the response
-                } else {
-                    throw new Error('Label not available');
-                }
-            }).then(function (label) {
-                resultDiv.innerHTML = `Label: ${label}`;
-            }).catch(error => {
-                resultDiv.innerHTML = 'Label not available';
-                console.error('Error:', error);
-            });
-        }
-
-        function selectImage() {
-            
-        }
+      function selectImage() {}
     </script>
-</body>
+  </body>
 </html>
