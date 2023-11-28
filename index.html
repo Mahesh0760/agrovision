@@ -166,7 +166,7 @@
             }
           })
           .then(function (label) {
-            resultDiv.innerHTML = `Disease: ${label.data[0].Name}  Confidence: ${label.data[0].Confidence}`;
+            resultDiv.innerHTML = `Label: ${label.data[0].Name}  Confidence: ${label.data[0].Confidence}`;
           })
           .catch((error) => {
             resultDiv.innerHTML = "Label not available";
